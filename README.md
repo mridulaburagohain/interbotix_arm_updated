@@ -18,6 +18,6 @@ Below is the rough model of our final project: pick and place of object under on
 <!-- ![Final_model_cad](images/Final_model_cad.png) ![Collision_world](images/Collision_world.jpeg) -->
 
 <p align="center"> 
- <kdb> <img src="images/Final_model_cad.png"  width="400" height="250" border="3px solid black"/> </kdb>
- <kdb> <img src="images/collision_world_updated.png" width="400" height="250" border="3px solid black"/> </kdb>
+ <kdb> <img src="images/Final_model_cad.png"  width="400" height="250" /> </kdb>
+ <kdb> <img src="images/collision_world_updated.png" width="400" height="250" /> </kdb>
 </p>

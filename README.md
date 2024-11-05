@@ -11,6 +11,6 @@ The Key features updated here:
 - Saved paths can be used for the subsequent steps of movement
 - Added collision objects in the environment for safe manipulation in our environment
 - Cartesian planning is implemented for selected paths
-- pick and place file was added for manipulation demo
+- Pick and place file was added for manipulation demo
 
  

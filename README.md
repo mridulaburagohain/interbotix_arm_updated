@@ -5,3 +5,5 @@ This Repository is cloned from the Interbotix repository and modified for our us
 ### Check the original codebase from interbotix: https://github.com/Interbotix
 ### Original Documentation here: https://docs.trossenrobotics.com/interbotix_xsarms_docs/
 
+The Key features updated here:
+- 

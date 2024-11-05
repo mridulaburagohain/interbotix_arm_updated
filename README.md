@@ -26,5 +26,5 @@ Here a easily interative GUI was used to give global position (x,y,z in metres) 
 It can also save its path and repeat it multiple times in the subsequent steps. Objects in its environment and base are added as collision objects for smooth safe manipulation. The example code provided can be updated easily for your custom environment.
 
 ## GUI Updated for control of both of manipulator arm and gripper
-![GUI_spanshot](images/GUI_spanshot.png) 
+![GUI_snapshot](images/GUI_snapshot.png) 
 

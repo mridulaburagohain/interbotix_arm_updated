@@ -6,7 +6,6 @@ This Repository is cloned from the Interbotix repository and modified for our us
 ### Original Documentation here: https://docs.trossenrobotics.com/interbotix_xsarms_docs/
 
 The Key features updated here:
-
 - Updated GUI for control of both of manipulator arm and gripper
 - Path recording, saving and retrace features added
 - Saved paths can be used for the subsequent steps of movement

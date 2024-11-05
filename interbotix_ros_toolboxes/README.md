@@ -49,6 +49,4 @@ As shown above, there are four main levels and two types of packages in this rep
 ## Contributing
 Feel free to send PRs to add features to currently existing Toolbox ROS packages or to include new ones (like modules). Note that all PRs should follow the structure and naming conventions outlined in the repo including documentation.
 
-## Contributors
-- [Solomon Wiznitzer](https://github.com/swiz23) - **ROS Engineer**
-- [Luke Schmitt](https://github.com/lsinterbotix) - **Robotics Software Engineer**
+

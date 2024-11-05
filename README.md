@@ -19,5 +19,5 @@ Below is the rough model of our final project: pick and place of object under on
 
 <p align="center">
   <img src="images/Final_model_cad.png"  />
-  <img src="images/collision_world_updated.jpeg" />  
+  <img src="images/collision_world_updated.png" />  
 </p>

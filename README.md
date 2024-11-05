@@ -14,3 +14,4 @@ The Key features updated here:
 - Pick and place file was added for manipulation demo
 
  
+Below is the rough model of our final project: pick and place of object under one camera stand to another.

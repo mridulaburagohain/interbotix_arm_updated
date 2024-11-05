@@ -62,6 +62,3 @@ The final software layer is the layer at which an end user programs their own co
 ## Contributing
 Feel free to send PRs to add features to currently existing Actuator ROS wrappers or to include a new one. Note that all PRs should follow the structure and naming conventions outlined in the repo including documentation.
 
-## Contributors
-- [Solomon Wiznitzer](https://github.com/swiz23) - **ROS Engineer**
-- [Luke Schmitt](https://github.com/lsinterbotix) - **Robotics Software Engineer**

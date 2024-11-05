@@ -5,6 +5,7 @@ This Repository is cloned from the Interbotix repository and modified for our us
 ### Check the original codebase from interbotix: https://github.com/Interbotix
 ### Original Documentation here: https://docs.trossenrobotics.com/interbotix_xsarms_docs/
 
+## Overview
 The Key features updated here:
 - Updated GUI for control of both of manipulator arm and gripper
 - Path recording, saving and retrace features added
@@ -27,5 +28,4 @@ It can also save its path and repeat it multiple times in the subsequent steps. 
 
 ## GUI Updated for control of both of manipulator arm and gripper
 ![GUI_snapshot](images/GUI_snapshot.png) 
-
 New features introduced: New save buttons introduce to save the start, goal and planned path for later use. Planning group change button was introduced to change the planning group to shift the controller from arm to gripper and vice versa. The Gripper planning group now takes predefined grasp and release positions from the srdf file but can be easily updated for custom positions.The buttons schronization is established to guide the user from one step to other and not to execute repeatation. Joint states are updated after every action to cover the accuracy errors in its execution. The collsiion threshold was also updated for safe manipulation

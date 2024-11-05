@@ -22,6 +22,9 @@ Below is the rough model of our final project: pick and place of object under on
   <img src="images/collision_world_updated.png" width="400" height="250" /> 
 </p>
 
+Here a easily interative GUI was used to give global position (x,y,z in metres) coordinated and angles (roll,pitch and yaw in radians) for manipulator control using Moveit2. It was build on top of moveit2 package with rviz_visual_tools. This is the first step in building the perception controlled pipeline for pick and place operation using Moveit2. This updated package used moveit2 capabilities to plan path both with normal planning and cartesian planning to achieve a smooth goal of pick an object placed under the microscopic camera stand 1 and place it under camera 2. 
+It can also save its path and repeat it multiple times in the subsequent steps. Objects in its environment and base are added as collision objects for smooth safe manipulation. The example code provided can be updated easily for your custom environment.
+
 ## GUI Updated for control of both of manipulator arm and gripper
 
 

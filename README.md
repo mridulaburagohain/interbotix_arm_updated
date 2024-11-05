@@ -35,7 +35,11 @@ New features introduced: New save buttons introduce to save the start, goal and 
 - interbotix_moveit_interface_msgs - Please check the Readme file of this package to have a detailed information of the changes perfored: [Move Group Interface msgs](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface_msgs)
 
 ## Instation instructions
+```
 sudo apt install curl
 curl 'https://raw.githubusercontent.com/Interbotix/interbotix_ros_manipulators/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh' > xsarm_amd64_install.sh
 chmod +x xsarm_amd64_install.sh
 ./xsarm_amd64_install.sh -d galactic
+```
+
+

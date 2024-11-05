@@ -40,7 +40,7 @@ Below is the code for the installation command for this repository
 sudo apt install curl
 curl 'https://raw.githubusercontent.com/mridulaburagohain/interbotix_arm_updated/interbotix_ros_manipulators/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh' > xsarm_amd64_install.sh
 chmod +x xsarm_amd64_install.sh
-./xsarm_amd64_install.sh -d galactic
+./xsarm_amd64_install.sh -d humble
 ```
 
 

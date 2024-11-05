@@ -16,3 +16,8 @@ The Key features updated here:
  
 Below is the rough model of our final project: pick and place of object under one camera stand to another.
 ![Final_model_cad](images/Final_model_cad.png) ![Collision_world](images/Collision_world.jpeg) 
+
+<p align="center">
+  <img src="https://github.com/mridulaburagohain/interbotix_arm_updated/blob/main/images/Final_model_cad.png" width="300" />
+  <img src="https://github.com/mridulaburagohain/interbotix_arm_updated/blob/main/images/Collision_world.jpeg" width="300" />  
+</p>

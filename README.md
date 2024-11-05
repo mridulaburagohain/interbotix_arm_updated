@@ -21,3 +21,8 @@ Below is the rough model of our final project: pick and place of object under on
   <img src="images/Final_model_cad.png"  width="400" height="250" /> 
   <img src="images/collision_world_updated.png" width="400" height="250" /> 
 </p>
+
+## GUI Updated for control of both of manipulator arm and gripper
+
+
+

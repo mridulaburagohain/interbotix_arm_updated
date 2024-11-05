@@ -1,4 +1,4 @@
-### interbotix_arm_updated
+# Interbotix_arm_updated
 
 This Repository is cloned from the Interbotix repository and modified for our use for easy manipulation 
 

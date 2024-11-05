@@ -51,7 +51,3 @@ To contribute your own custom X-Series arm in this repo, you will need to do the
 - Add the appropriate Screw axes and M matrices to the [mr_descriptions.py](https://github.com/Interbotix/interbotix_ros_toolboxes/blob/main/interbotix_xs_toolbox/interbotix_xs_modules/src/interbotix_xs_modules/mr_descriptions.py) and [mr_descriptions.m](https://github.com/Interbotix/interbotix_ros_toolboxes/blob/main/interbotix_xs_toolbox/interbotix_xs_modules/src/interbotix_xs_modules/mr_descriptions.m) modules. For help doing this, refer to Chapter 4 in [Modern Robotics](http://hades.mech.northwestern.edu/images/7/7f/MR.pdf) and [this video](https://www.youtube.com/watch?v=cKHsil0V6Qk&ab_channel=NorthwesternRobotics), or check out our [kinematics_from_description](https://github.com/Interbotix/kinematics_from_description) tool.
 - Make sure to follow the same naming convention, structure, and documentation procedures as found in the repo before making a PR.
 
-## Contributors
-- [Solomon Wiznitzer](https://github.com/swiz23) - **ROS Engineer**
-- [Luke Schmitt](https://github.com/lsinterbotix) - **Robotics Software Engineer**
-- [Levi Todes](https://github.com/LeTo37) - **CAD Engineer**

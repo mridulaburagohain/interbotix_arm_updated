@@ -1,4 +1,4 @@
-# Interbotix_arm_updated
+# Interbotix_ros_toolboxes
 
 This Repository is cloned from the Interbotix toolboxes repository and modified for our use for easy manipulation
 

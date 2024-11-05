@@ -30,6 +30,7 @@ It can also save its path and repeat it multiple times in the subsequent steps. 
 ![GUI_snapshot](images/GUI_snapshot.png) 
 New features introduced: New save buttons introduce to save the start, goal and planned path for later use. Planning group change button was introduced to change the planning group to shift the controller from arm to gripper and vice versa. The Gripper planning group now takes predefined grasp and release positions from the srdf file but can be easily updated for custom positions.The buttons schronization is established to guide the user from one step to other and not to execute repeatation. Joint states are updated after every action to cover the accuracy errors in its execution. The collsiion threshold was also updated for safe manipulation
 
-#### Updated nodes
-- moveit_interface - a small C++ API that makes it easier for a user to command custom poses to the end-effector of an Interbotix arm; it uses MoveIt's planner behind the scenes to generate desired joint trajectories
-- moveit_interface_gui - a GUI (modeled after the one in the joint_state_publisher package) that allows a user to enter in desired end-effector poses via text fields or sliders; it uses the moveit_interface API to plan and execute trajectories
+#### Updated packages
+- interbotix_moveit_interface- Please check the Readme file of this package to have a detailed information of the changes perfored: [Move Group Interface](https://github.com/mridulaburagohain/interbotix_arm_updated/main/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface)
+- interbotix_moveit_interface_msgs
+

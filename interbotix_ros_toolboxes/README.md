@@ -6,9 +6,12 @@ This Repository is cloned from the Interbotix toolboxes repository and modified 
 #### Original Documentation here: https://docs.trossenrobotics.com/interbotix_xsarms_docs/
 
 ## Overview
-
+![toolbox_repo_structure](images/toolbox_repo_structure.png)
 Links to other repositories that use this repo include:
-- [interbotix_ros_manipulators](https://github.com/Interbotix/interbotix_ros_manipulators)
+- [interbotix_ros_manipulators](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_manipulators)
+
+
+
 
 
 

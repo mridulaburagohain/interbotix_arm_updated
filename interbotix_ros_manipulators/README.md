@@ -10,8 +10,8 @@ Modules and files that were modified or newly added in the interbotix_ros_toolbo
 ```
 ├── interbotix_ros_manipulators
 │   └── interbotix_ros_xsarms
-│       ├── interbotix_xsarm_moveit
-│           ├── config
+│       └── interbotix_xsarm_moveit
+│           └── config
 │               └── srdf
 │                   └── vx300s.srdf.xacro
 ├── interbotix_ros_toolboxes

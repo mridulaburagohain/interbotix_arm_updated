@@ -18,8 +18,7 @@ Modules and files that were modified or newly added in the interbotix_ros_toolbo
 ├── interbotix_ros_toolboxes
 │   └── ...
 ```
-Here to modify the constraints values and pre-defined gripper positions the srdf file was modified to be used in the pick and place operation of our project. This can be easily modified to add/modify any predefined position values. 
-
+Here to modify the constraints values the chomp_planning file and for pre-defined gripper states the srdf file was modified to be used in the pick and place operation of our project. We have modified it for pick and place of petri-dish. This can be easily modified to add/modify any predefined states with respective position values. The chomp_planning file was used to incease the collision threshold value and similar the other constraint values can also be modified
 
 
 ## Reference from the original repo for the package structure

@@ -1,9 +1,15 @@
 # interbotix_moveit_interface
-As discused in the main ```README``` file of the interbotix_ros_toolboxes package this module is reponsible for the GUI modification
+As discused in the main ```README``` file of the *interbotix_ros_toolboxes* package this module is reponsible for the GUI modification
 
+The files modified for our application has the following additions:
+- *moveit_interface_obj.hpp* - 
 
-
-
+- *moveit_interface_obj.cpp* -
+- *moveit_interface.cpp* -
+- *moveit_interface_gui* -
+- *pick_and_place_moveit.py* -
+- *gripper_control.py* -
+- *saved_paths.txt* -
 
 ## Reference from the original repository for the package structure
 Below is an overview and package structure as defined in the original repository for reference

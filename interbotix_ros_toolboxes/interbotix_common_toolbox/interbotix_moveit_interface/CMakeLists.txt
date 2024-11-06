@@ -37,6 +37,7 @@ set(
 
 include_directories(
   include
+  paths
 )
 
 add_executable(moveit_interface src/moveit_interface.cpp src/moveit_interface_obj.cpp)

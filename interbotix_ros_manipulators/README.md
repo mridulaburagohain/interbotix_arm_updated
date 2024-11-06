@@ -6,3 +6,4 @@ This Repository is cloned from the Interbotix toolboxes repository and modified 
 
 ## Overview
 
+This repo is used in other repositories: [interbotix_ros_manipulators](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_manipulators)

@@ -1,4 +1,4 @@
-# Interbotix_ros_toolboxes
+# Interbotix_ros_manipulators
 
 This Repository is cloned from the Interbotix toolboxes repository and modified for our use for easy manipulation
 #### Check the original codebase from interbotix: https://github.com/Interbotix/interbotix_ros_manipulators/tree/humble

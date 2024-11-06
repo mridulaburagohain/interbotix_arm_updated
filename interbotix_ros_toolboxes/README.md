@@ -37,7 +37,7 @@ The addition and modification of new features to the moveit controlled  GUI is d
  
 Please find more details in the ```README``` file of the repective module
   
-## Reference from the original repo for its structure  
+## Reference from the original repo for the package structure  
 Below is an overview and package structure as defined in the original repository for reference
 ## Overview
 ![toolbox_repo_structure](images/toolbox_repo_structure.png)

@@ -19,7 +19,7 @@ Modules and files that were modified or newly added in the interbotix_ros_toolbo
 ```
 
 
-Please find more details in the README file of the repective module
+Please find more details in the ```README``` file of the repective module
 
 ## Reference from the original repo for the package structure
 Below is an overview and package structure as defined in the original repository for reference

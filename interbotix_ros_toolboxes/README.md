@@ -4,7 +4,29 @@ This Repository is cloned from the Interbotix toolboxes repository and modified 
 
 #### Check the original codebase from interbotix: https://github.com/Interbotix/interbotix_ros_toolboxes/tree/humble
 #### Original Documentation here: https://docs.trossenrobotics.com/interbotix_xsarms_docs/
-## Changes made
+## New Changes Included
+Modules and files that were modified:
+```
+├── interbotix_ros_toolboxes
+│   └── interbotix_common_toolbox
+│       ├── interbotix_moveit_interface
+│           ├── src
+│               ├── moveit_interface.cpp
+│               ├── moveit_interface_obj.cpp
+│           ├── scripts
+│               ├── moveit_interface_gui
+│               ├── pick_and_place_moveit.py
+│               └── gripper_control.py
+│           ├── paths
+│               └── saved_path.txt
+│           └── include/interbotix_moveit_interface/moveit_interface_obj.hpp
+│       └── interbotix_moveit_interface_msgs
+│           ├── srv/MoveitPlan.srv
+│           ├── CMakeLists.txt
+│           └── package.xml
+└── interbotix_ros_manipulators
+│   └── ...
+```
 
 ### Below is an overview and package structure as defined in the original repository for reference
 ## Overview

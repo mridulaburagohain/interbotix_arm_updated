@@ -6,8 +6,17 @@ This Repository is cloned from the Interbotix toolboxes repository and modified 
 
 ## New Changes Included
 The primarily modified packages and scrips here:
-- *interbotix_ros_
-
+Modules and files that were modified or newly added in the interbotix_ros_toolbox package includes:
+```
+├── interbotix_ros_manipulators
+│   └── interbotix_ros_xsarms
+│       ├── interbotix_xsarm_moveit
+│           ├── config
+│               └── srdf
+│                   └── vx300s.srdf.xacro
+├── interbotix_ros_toolboxes
+│   └── ...
+```
 
 ## Reference from the original repo for the package structure
 Below is an overview and package structure as defined in the original repository for reference

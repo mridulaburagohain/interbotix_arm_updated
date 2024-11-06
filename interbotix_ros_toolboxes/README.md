@@ -12,7 +12,7 @@ Modules and files that were modified:
 │       ├── interbotix_moveit_interface
 │           ├── src
 │               ├── moveit_interface.cpp
-│               ├── moveit_interface_obj.cpp
+│               └── moveit_interface_obj.cpp
 │           ├── scripts
 │               ├── moveit_interface_gui
 │               ├── pick_and_place_moveit.py

@@ -12,14 +12,15 @@ Modules and files that were modified or newly added in the interbotix_ros_toolbo
 │   └── interbotix_ros_xsarms
 │       └── interbotix_xsarm_moveit
 │           └── config
+│               ├── chomp_planning.yaml
 │               └── srdf
 │                   └── vx300s.srdf.xacro
 ├── interbotix_ros_toolboxes
 │   └── ...
 ```
+Here to modify the constraints values and pre-defined gripper positions the srdf file was modified to be used in the pick and place operation of our project. This can be easily modified to add/modify any predefined position values. 
 
 
-Please find more details in the ```README``` file of the repective module
 
 ## Reference from the original repo for the package structure
 Below is an overview and package structure as defined in the original repository for reference

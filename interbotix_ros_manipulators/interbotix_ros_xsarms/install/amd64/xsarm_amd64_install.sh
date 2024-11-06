@@ -27,7 +27,7 @@ JAMMY_VALID_DISTROS=('humble' 'rolling')
 
 NONINTERACTIVE=false
 DISTRO_SET_FROM_CL=false
-INSTALL_PATH=~/interbotix_ws
+INSTALL_PATH=~/interbotix_ws_updated
 APRILTAG_WS=~/apriltag_ws
 
 _usage="${BOLD}USAGE: ./xsarm_amd64_install.sh [-h][-d DISTRO][-p PATH][-n]${NORM}
@@ -44,7 +44,7 @@ Options:
                   your Ubuntu version, or the stable ROS 2 distro if using Ubuntu 22.04 or later.
 
   -p PATH         Sets the absolute install location for the Interbotix workspace. If not specified,
-                  the Interbotix workspace directory will default to '~/interbotix_ws'.
+                  the Interbotix workspace directory will default to '~/interbotix_ws_updated'.
 
   -n              Install all packages and dependencies without prompting. This is useful if
                   you're running this script in a non-interactive terminal like when building a
@@ -214,8 +214,8 @@ function install_ros1() {
   else
     cd "$INSTALL_PATH"/src
     git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/Interbotix/interbotix_ros_core.git
-    git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/Interbotix/interbotix_ros_manipulators.git
-    git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/Interbotix/interbotix_ros_toolboxes.git
+    git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/mridulaburagohain/interbotix_ros_manipulators.git
+    git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/mridulaburagohain/interbotix_ros_toolboxes.git
     rm                                                                                              \
       interbotix_ros_core/interbotix_ros_xseries/CATKIN_IGNORE                                      \
       interbotix_ros_manipulators/interbotix_ros_xsarms/CATKIN_IGNORE                               \
@@ -319,9 +319,9 @@ function install_ros2() {
   else
     echo -e "${GRN}Installing ROS 2 packages for the Interbotix Arm...${OFF}"
     cd "$INSTALL_PATH"/src
-    git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/Interbotix/interbotix_ros_core.git
-    git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/Interbotix/interbotix_ros_manipulators.git
-    git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/Interbotix/interbotix_ros_toolboxes.git
+    git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/mridulaburagohain/interbotix_ros_core.git
+    git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/mridulaburagohain/interbotix_ros_manipulators.git
+    git clone -b "$ROS_DISTRO_TO_INSTALL" https://github.com/mridulaburagohain/interbotix_ros_toolboxes.git
     # TODO(lsinterbotix) remove below when moveit_visual_tools is available in apt repo
     git clone -b ros2 https://github.com/ros-planning/moveit_visual_tools.git
     if [ "$INSTALL_PERCEPTION" = true ]; then

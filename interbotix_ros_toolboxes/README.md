@@ -24,7 +24,7 @@ Modules and files that were modified:
 │           ├── srv/MoveitPlan.srv
 │           ├── CMakeLists.txt
 │           └── package.xml
-└── interbotix_ros_manipulators
+├── interbotix_ros_manipulators
 │   └── ...
 ```
 

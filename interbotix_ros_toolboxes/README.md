@@ -4,7 +4,9 @@ This Repository is cloned from the Interbotix toolboxes repository and modified 
 
 #### Check the original codebase from interbotix: https://github.com/Interbotix/interbotix_ros_toolboxes/tree/humble
 #### Original Documentation here: https://docs.trossenrobotics.com/interbotix_xsarms_docs/
+## Changes made
 
+### Below is an overview and package structure as defined in the original repository for reference
 ## Overview
 ![toolbox_repo_structure](images/toolbox_repo_structure.png)
 

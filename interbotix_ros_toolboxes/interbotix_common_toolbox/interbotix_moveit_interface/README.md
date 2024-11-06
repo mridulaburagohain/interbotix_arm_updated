@@ -1,4 +1,10 @@
 # interbotix_moveit_interface
+As discused in the main README file of the interbotix_ros_toolboxes package this module is reponsible for the GUI modification
+
+
+
+
+
 ## Reference from the original repository for the package structure
 Below is an overview and package structure as defined in the original repository for reference
 

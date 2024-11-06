@@ -30,9 +30,10 @@ It can also save its path and repeat it multiple times in the subsequent steps. 
 ![GUI_snapshot](images/GUI_snapshot.png) 
 New features introduced: New save buttons introduce to save the start, goal and planned path for later use. Planning group change button was introduced to change the planning group to shift the controller from arm to gripper and vice versa. The Gripper planning group now takes predefined grasp and release positions from the srdf file but can be easily updated for custom positions.The buttons schronization is established to guide the user from one step to other and not to execute repeatation. Joint states are updated after every action to cover the accuracy errors in its execution. The collsiion threshold was also updated for safe manipulation
 
-#### Updated packages
-- interbotix_moveit_interface - Please check the Readme file of this package to have a detailed information of the changes perfored: [Move Group Interface](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface)
-- interbotix_moveit_interface_msgs - Please check the Readme file of this package to have a detailed information of the changes perfored: [Move Group Interface msgs](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface_msgs)
+#### Updated modules
+- interbotix_moveit_interface - Please check the Readme file of this package to have a detailed information of the changes performed: [Move Group Interface](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface)
+- interbotix_moveit_interface_msgs - Please check the Readme file of this package to have a detailed information of the changes performed: [Move Group Interface msgs](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface_msgs)
+- interbotix_xsarms_moveit - Please check the Readme file of this package to have a detailed information of the changes performed: [moveit_xsarms_control](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_manipulators/interbotix_ros_xsarms/interbotix_xsarm_moveit)
 
 ## Installation instructions
 Below is the code for the installation command for this modified repository

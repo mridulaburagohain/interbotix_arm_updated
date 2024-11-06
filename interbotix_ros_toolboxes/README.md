@@ -30,7 +30,9 @@ Modules and files that were modified or newly added in the interbotix_ros_toolbo
 The addition and modification of new features to the moveit controlled  GUI is done by modifying the interbotix_moveit_interface and interbotix_moveit_interface_msgs modules using the above mentioned files. 
 - The **interbotix_moveit_interface** module is responsible to subscribe to the move_group mode and using the GUI interpretations control the arm. Previously the GUI was only able to control the arm with the constant interbotix_arm planning group with no return structure to record and save the trajectory joint states and retrack operation.
 - The **interbotix_moveit_interface_msgs** module helps to set up the command options available to send from the GUI for communication and msg structure used to call and returned by the moveit_plan server used in the **interbotix_moveit_interface module**
+
   
+## Reference from the original repo for its structure  
 ### Below is an overview and package structure as defined in the original repository for reference
 ## Overview
 ![toolbox_repo_structure](images/toolbox_repo_structure.png)

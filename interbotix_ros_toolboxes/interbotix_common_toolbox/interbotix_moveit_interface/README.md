@@ -1,5 +1,5 @@
 # interbotix_moveit_interface
-As discused in the main README file of the interbotix_ros_toolboxes package this module is reponsible for the GUI modification
+As discused in the main ```README``` file of the interbotix_ros_toolboxes package this module is reponsible for the GUI modification
 
 
 

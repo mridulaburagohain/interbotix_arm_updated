@@ -12,6 +12,7 @@ endif()
 find_package(rosidl_default_generators REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(moveit_msgs REQUIRED)
 
 set(SRV_FILES
   srv/MoveItPlan.srv
@@ -22,6 +23,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   DEPENDENCIES
     std_msgs
     geometry_msgs
+    moveit_msgs
 )
 
 if(BUILD_TESTING)

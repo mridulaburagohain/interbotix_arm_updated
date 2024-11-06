@@ -46,6 +46,7 @@ from python_qt_binding.QtWidgets import (
     QSlider,
     QVBoxLayout,
     QWidget,
+    QComboBox,
 )
 import rclpy
 from rclpy.executors import MultiThreadedExecutor
@@ -64,7 +65,6 @@ MAX_ARM_POS = 0.75
 # orientation slider bars
 MAX_ROT_POS = 3.14
 
-
 class MoveItGUIInterface(Node, QWidget):
 
     command: MoveItPlan.Request
@@ -72,14 +72,14 @@ class MoveItGUIInterface(Node, QWidget):
     def __init__(self, thread: Thread):
         """
         Construct the MoveItGUIInterface object and sets up the GUI layout.
-
         :param thread: Reference to the thread that spins the executor.
         """
-        Node.__init__(self, node_name='moveit_interface_gui')
+        super().__init__(node_name='moveit_interface_gui')
         QWidget.__init__(self)
 
         self.thread = thread
 
+    
         # Initialize the service clients and wait for their existence
         self.moveit_planner = self.create_client(MoveItPlan, 'moveit_plan')
         self.clear_markers_service = self.create_client(Empty, 'clear_markers')
@@ -105,7 +105,16 @@ class MoveItGUIInterface(Node, QWidget):
 
         # Master container that holds all other 'sub containers'
         master_layout = QVBoxLayout()
-
+        
+        # Planning group selection
+        self.planning_group_combo = QComboBox(self)
+        self.planning_group_combo.addItems(["interbotix_arm", "interbotix_gripper"])  
+        # Add your planning groups here
+        master_layout.addWidget(QLabel("Planning Group:"))
+        master_layout.addWidget(self.planning_group_combo)
+        
+        self.planning_group_combo.currentTextChanged.connect(self.update_moveit_interface)
+        
         # List of dynamically configurable parameters
         param_list = ['x [m]', 'y [m]', 'z [m]', 'roll [rad]', 'pitch [rad]', 'yaw [rad]']
 
@@ -175,13 +184,59 @@ class MoveItGUIInterface(Node, QWidget):
         self.execute_button.setEnabled(False)
         self.execute_button.clicked.connect(self.execute_event)
         horizontal_button_layout.addWidget(self.execute_button)
+        
+        # Adding new buttons for saving positions and path
+        self.save_start_button = QPushButton('Save Start', self)
+        #self.save_start_button.setEnabled(False)
+        self.save_start_button.clicked.connect(self.save_start_position_event)
+        horizontal_button_layout.addWidget(self.save_start_button)
 
+        self.save_goal_button = QPushButton('Save Goal', self)
+        self.save_goal_button.setEnabled(False)
+        self.save_goal_button.clicked.connect(self.save_goal_position_event)
+        horizontal_button_layout.addWidget(self.save_goal_button)
+
+        self.save_path_button = QPushButton('Save Path', self)
+        self.save_path_button.setEnabled(False)
+        self.save_path_button.clicked.connect(self.save_path_event)
+        horizontal_button_layout.addWidget(self.save_path_button)
+        
+        self.go_to_start_button = QPushButton('Go to Start', self)
+        self.go_to_start_button.setEnabled(False)
+        self.go_to_start_button.clicked.connect(self.go_to_start_event)
+        horizontal_button_layout.addWidget(self.go_to_start_button)
+        
+        self.go_to_goal_button = QPushButton('Repeat path', self)
+        self.go_to_goal_button.setEnabled(False)
+        self.go_to_goal_button.clicked.connect(self.go_to_goal_event)
+        horizontal_button_layout.addWidget(self.go_to_goal_button)
+              
+        self.grasp_button = QPushButton('Grasp object', self)
+        self.grasp_button.clicked.connect(self.grasp_event)
+        horizontal_button_layout.addWidget(self.grasp_button)
+        
+        self.release_button = QPushButton('Release object', self)
+        self.release_button.clicked.connect(self.release_event)
+        horizontal_button_layout.addWidget(self.release_button)
+        
         self.elements_to_enable = (
             self.plan_pose_button,
             self.plan_position_button,
             self.plan_orientation_button,
             self.execute_button,
-        )
+            self.save_path_button,
+            self.save_goal_button,
+            self.save_start_button,           
+            
+        )      
+                
+        if self.planning_group_combo.currentText() == "interbotix_arm":
+          self.grasp_button.setEnabled(False) 
+          self.release_button.setEnabled(False)  
+        else :
+          self.grasp_button.setEnabled(True) 
+          self.release_button.setEnabled(True)
+          self.enable_elements(False)
 
         master_layout.addLayout(horizontal_button_layout)
 
@@ -216,31 +271,16 @@ class MoveItGUIInterface(Node, QWidget):
         # Show the GUI!
         self.show()
 
-    def closeEvent(self, _) -> bool:
-        """
-        Handle the GUI closing event.
-
-        :param event: callback event (not used)
-        """
+    def closeEvent(self, _) -> bool:        
         self.executor.shutdown()
         self.destroy_node()
         self.thread.join()
 
-    def enable_elements(self, enable: bool) -> None:
-        """
-        Set the enabled status of all elements in the elements_to_enable set.
-
-        :param enable: Whether or not to enable the elements.
-        """
+    def enable_elements(self, enable: bool) -> None:        
         for element in self.elements_to_enable:
             element.setEnabled(enable)
 
-    def on_slider_value_changed_one(self, name):
-        """
-        Update the associated textbox field if a slider's value changes.
-
-        :param name: name of a parameter as defined in 'param_list'
-        """
+    def on_slider_value_changed_one(self, name):        
         pose_info = self.pose_map[name]
         if '[m]' in name:
             ee_value = self.slider_value_to_position(pose_info['slider'].value())
@@ -248,12 +288,7 @@ class MoveItGUIInterface(Node, QWidget):
             ee_value = self.slider_orientation_to_value(pose_info['slider'].value())
         pose_info['display'].setText(f'{ee_value:.2f}')
 
-    def on_text_value_changed_one(self, name):
-        """
-        Update the associated slider's value when a textbox's text changes.
-
-        :param name: name of a parameter as defined in 'param_list'
-        """
+    def on_text_value_changed_one(self, name):        
         pose_info = self.pose_map[name]
         if '[m]' in name:
             slider_value = self.slider_position_to_value(pose_info['display'].text())
@@ -261,69 +296,131 @@ class MoveItGUIInterface(Node, QWidget):
             slider_value = self.slider_value_to_orientation(pose_info['display'].text())
         pose_info['slider'].setValue(slider_value)
 
-    def plan_pose_event(self, _):
-        """
-        Start the process of calling the service when the 'Plan Pose' button is pressed.
-
-        :param event: callback event (not used)
-        """
+    def plan_pose_event(self, _):        
         self.plan(MoveItPlan.Request.CMD_PLAN_POSE)
 
-    def plan_position_event(self, _):
-        """
-        Start the process of calling the service when the 'Plan Position' button is pressed.
-
-        :param event: callback event (not used)
-        """
+    def plan_position_event(self, _):        
         self.plan(MoveItPlan.Request.CMD_PLAN_POSITION)
 
-    def plan_orientation_event(self, _):
-        """
-        Start the process of calling the service when the 'Plan Orientation' button is pressed.
-
-        :param event: callback event (not used)
-        """
+    def plan_orientation_event(self, _):        
         self.plan(MoveItPlan.Request.CMD_PLAN_ORIENTATION)
-
-    def plan(self, plan_type: int):
-        """
-        Set the planning type if a 'planning' button is pressed.
-
-        :param plan_type: An enum value describing the type of 'plan' to do
-        """
+        
+    def update_moveit_interface(self):
+        selected_group = self.planning_group_combo.currentText()              
+         
+        self.label.setText('Changing planning group')               
+        self.command.cmd = MoveItPlan.Request.CMD_CHANGE_PLANNING_GROUP
+        self.command.new_planning_group = selected_group
+        self.srv_moveit_plan()
+    
+    def plan(self, plan_type: int):        
+        self.start_position = None
+        self.goal_position = None
+        self.path = [] 
         self.enable_elements(False)
         self.label.setText('Planning...')
         self.command.cmd = plan_type
         self.srv_moveit_plan()
 
     def execute_event(self, _):
-        """
-        Start the process of calling the service when the 'Execute' button is pressed.
-
-        :param event: callback event (not used)
-        """
         self.enable_elements(False)
         self.label.setText('Executing...')
         self.command.cmd = MoveItPlan.Request.CMD_EXECUTE
         self.srv_moveit_plan()
+        
+    def save_start_position_event(self, _):        
+        try:
+            # Create a Pose object from the current slider values
+            pose = Pose()
+            pose.position.x = self.slider_value_to_position(self.pose_map['x [m]']['slider'].value())
+            pose.position.y = self.slider_value_to_position(self.pose_map['y [m]']['slider'].value())
+            pose.position.z = self.slider_value_to_position(self.pose_map['z [m]']['slider'].value())
+        
+            roll = self.slider_orientation_to_value(self.pose_map['roll [rad]']['slider'].value())
+            pitch = self.slider_orientation_to_value(self.pose_map['pitch [rad]']['slider'].value())
+            yaw = self.slider_orientation_to_value(self.pose_map['yaw [rad]']['slider'].value())
+        
+            qx, qy, qz, qw = quaternion_from_euler(roll, pitch, yaw)
+            pose.orientation = Quaternion(x=qx, y=qy, z=qz, w=qw)
 
-    def clear_event(self, _):
-        """
-        Clear the MoveItVisualTools markers.
+            # Save the pose to the start_position attribute
+            self.start_position = pose
+            self.label.setText("Start position saved.")
+        except Exception as e:
+            self.label.setText(f"Failed to save start position: {str(e)}")
+    
+    def save_goal_position_event(self,_):
+        
+        if self.command.ee_pose:
+           self.goal_position = self.command.ee_pose
+           self.label.setText("Goal position saved.")
+        else:
+           self.label.setText("No goal position available to save.")
+       
+    def save_path_event(self,_):
+        if self.planned_path:
+            self.label.setText("half there")
+            # Assuming planned_path is a list of poses
+            self.path.extend(self.planned_path)
+            self.label.setText("Planned path saved.")
+            if self.start_position is not None and self.goal_position is not None and self.path:
+               self.write_poses_to_file(self.start_position, self.goal_position, self.path)
+               self.label.setText("Start, goal, and planned path saved to file.")
+            else:
+               self.label.setText("Start, goal, or planned path not set.")
+        else:
+            self.label.setText("No path available to save.")
+        
+        self.save_goal_button.setEnabled(False)
+        self.save_path_button.setEnabled(False)
+        self.save_start_button.setEnabled(False)
+    
+    def grasp_event(self):    
+        self.grasp_button.setEnabled(False) 
+        self.release_button.setEnabled(False)         
+        self.label.setText('Grasping...')
+        self.command.cmd = MoveItPlan.Request.CMD_GRIPPER_GRASP
+        self.srv_moveit_plan()
 
-        :param event: callback event (not used)
-        """
+    def release_event(self):        
+        self.grasp_button.setEnabled(False) 
+        self.release_button.setEnabled(False) 
+        self.label.setText('Releasing...')
+        self.command.cmd = MoveItPlan.Request.CMD_GRIPPER_RELEASE
+        self.srv_moveit_plan()
+    
+    def go_to_start_event(self, _):  
+        self.enable_elements(False)      
+        self.label.setText('Going to start...')
+        self.command.cmd = MoveItPlan.Request.CMD_EXECUTE_REVERSE
+        self.srv_moveit_plan()           
+                    
+    def go_to_goal_event(self, _): 
+        self.enable_elements(False)       
+        self.label.setText('Repeating path...')
+        self.command.cmd = MoveItPlan.Request.CMD_EXECUTE_AGAIN
+        self.srv_moveit_plan()    
+
+    def write_poses_to_file(self, start_pose, goal_pose, planned_path):
+        """Write start pose, goal pose, and planned path to a file."""
+        with open('/home/mridula/interbotix_ws/src/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface/files/saved_paths.txt', 'w') as file:  # Append mode
+            file.write("Start Pose:\n")
+            file.write(f"{start_pose}\n")  # Assuming start_pose is in a string format or can be converted
+            file.write("Goal Pose:\n")
+            file.write(f"{goal_pose}\n")  # Same assumption as above
+            file.write("Planned Path:\n")
+            for pose in planned_path:
+               file.write(f"{pose}\n")  # Assuming each pose can be represented as a string
+            file.write("\n") 
+         
+    
+    def clear_event(self, _):       
         self.clear_markers_service.call_async(Empty.Request())
 
-    def reset_event(self, _):
-        """
-        Reset all slider positions to their middle.
-
-        :param event: callback event (not used)
-        """
+    def reset_event(self, _):        
         for value in self.pose_map.values():
             value['slider'].setValue(int(RANGE/2))
-
+            
     def slider_value_to_position(self, slider):
         """
         Convert the raw slider value to a linear position in meters.
@@ -360,14 +457,23 @@ class MoveItGUIInterface(Node, QWidget):
         pctvalue = (float(value) + MAX_ROT_POS)/(2*MAX_ROT_POS)
         return int(pctvalue * float(RANGE))
 
-    def srv_moveit_plan(self):
-        """Call the MoveItPlan service."""
+    def srv_moveit_plan(self):        
         # If an 'Execute' request was received, call the service with the 'Execute' command
-        if self.command.cmd == MoveItPlan.Request.CMD_EXECUTE:
+        if self.command.cmd == MoveItPlan.Request.CMD_EXECUTE:       
             execute_future: rclpy.Future = self.moveit_planner.call_async(self.command)
-            execute_future.add_done_callback(self.execute_done_callback)
-        # If a 'Planning' request was received, call the service with the requested planning
-        # command and end-effector goal pose
+            execute_future.add_done_callback(self.execute_done_callback)                            
+        elif self.command.cmd == MoveItPlan.Request.CMD_EXECUTE_REVERSE:       
+            execute_future: rclpy.Future = self.moveit_planner.call_async(self.command)
+            execute_future.add_done_callback(self.execute_done_callback)              
+        elif self.command.cmd == MoveItPlan.Request.CMD_EXECUTE_AGAIN:       
+            execute_future: rclpy.Future = self.moveit_planner.call_async(self.command)
+            execute_future.add_done_callback(self.execute_done_callback)              
+        elif self.command.cmd == MoveItPlan.Request.CMD_CHANGE_PLANNING_GROUP:       
+            change_group: rclpy.Future = self.moveit_planner.call_async(self.command)
+            change_group.add_done_callback(self.group_change_done_callback)          
+        elif self.command.cmd in [MoveItPlan.Request.CMD_GRIPPER_GRASP, MoveItPlan.Request.CMD_GRIPPER_RELEASE]:
+            gripper_future: rclpy.Future = self.moveit_planner.call_async(self.command)
+            gripper_future.add_done_callback(self.gripper_done_callback)           
         elif self.command.cmd is not MoveItPlan.Request.CMD_NONE:
             pose = Pose()
             roll = self.slider_orientation_to_value(
@@ -400,27 +506,77 @@ class MoveItGUIInterface(Node, QWidget):
             planner_future: rclpy.Future = self.moveit_planner.call_async(self.command)
             planner_future.add_done_callback(self.planner_done_callback)
         # Clear the command once it was acted upon
-        self.command.cmd = MoveItPlan.Request.CMD_NONE
+        #self.command.cmd = MoveItPlan.Request.CMD_NONE
 
     def planner_done_callback(self, planner_future: rclpy.Future):
         planner_resp: MoveItPlan.Response = planner_future.result()
         self.get_logger().info(planner_resp.msg.data)
-        # Update the message status label
+        
+        # Update the message status label       
+        if planner_resp.success:
+           self.planned_path = [list(point.positions) for point in planner_resp.trajectory.joint_trajectory.points]
+        else:
+           self.label.setText(" no planned Path")       
         self.label.setText(planner_resp.msg.data)
-        self.enable_elements(True)
+        self.enable_elements(True)        
         # Reveal the 'Execute' button if successful plan was achieved
         if not planner_resp.success:
             self.execute_button.setEnabled(False)
-
+            self.save_goal_button.setEnabled(False)
+            self.save_start_button.setEnabled(False)
+            self.save_path_button.setEnabled(False)            
+        self.command.cmd = MoveItPlan.Request.CMD_NONE
     def execute_done_callback(self, execute_future: rclpy.Future):
         execute_resp: MoveItPlan.Response = execute_future.result()
         self.get_logger().info(execute_resp.msg.data)
         # Update the message status label
         self.label.setText(execute_resp.msg.data)
-        # Disable the 'Execute' button until another successful planning request was achieved
-        self.enable_elements(True)
-        self.execute_button.setEnabled(False)
-
+        # Disable the 'Execute' button until another successful planning request was achieved    
+        self.enable_elements(True) 
+        self.execute_button.setEnabled(False)   
+        if execute_resp.success:          
+          if self.command.cmd == MoveItPlan.Request.CMD_EXECUTE:              
+             self.go_to_goal_button.setEnabled(False)
+             self.go_to_start_button.setEnabled(True)
+          elif self.command.cmd == MoveItPlan.Request.CMD_EXECUTE_REVERSE: 
+             self.go_to_start_button.setEnabled(False)             
+             self.go_to_goal_button.setEnabled(True)  
+          elif self.command.cmd == MoveItPlan.Request.CMD_EXECUTE_AGAIN: 
+             self.go_to_goal_button.setEnabled(False)                 
+             self.go_to_start_button.setEnabled(True)                
+        
+        self.command.cmd = MoveItPlan.Request.CMD_NONE
+        
+    def group_change_done_callback(self, group_future: rclpy.Future):
+        group_resp: MoveItPlan.Response = group_future.result()
+        self.get_logger().info(group_resp.msg.data)
+        # Update the message status label
+        self.label.setText(group_resp.msg.data)         
+        if self.planning_group_combo.currentText() == "interbotix_arm":
+          self.grasp_button.setEnabled(False) 
+          self.release_button.setEnabled(False)  
+          self.enable_elements(True) 
+          self.execute_button.setEnabled(False)
+          #self.go_to_start_button.setEnabled(True)    
+          #self.go_to_goal_button.setEnabled(True) 
+        else :
+          self.grasp_button.setEnabled(True) 
+          self.release_button.setEnabled(True)
+          self.enable_elements(False)          
+          #self.go_to_start_button.setEnabled(False)    
+          #self.go_to_goal_button.setEnabled(False) 
+        self.command.cmd = MoveItPlan.Request.CMD_NONE
+        
+    def gripper_done_callback(self, gripper_future: rclpy.Future):
+        gripper_resp: MoveItPlan.Response = gripper_future.result()
+        self.get_logger().info(gripper_resp.msg.data)
+        # Update the message status label
+        self.label.setText(gripper_resp.msg.data)      
+        if self.command.cmd == MoveItPlan.Request.CMD_GRIPPER_GRASP:            
+           self.release_button.setEnabled(True)            
+        elif self.command.cmd == MoveItPlan.Request.CMD_GRIPPER_RELEASE:      
+           self.grasp_button.setEnabled(True)                           
+        self.command.cmd = MoveItPlan.Request.CMD_NONE 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

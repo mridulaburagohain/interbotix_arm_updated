@@ -5,7 +5,7 @@ This Repository is cloned from the Interbotix toolboxes repository and modified 
 #### Original Documentation here: https://docs.trossenrobotics.com/interbotix_xsarms_docs/
 
 ## New Changes Included
-The primarily modified packages and scrips here:
+
 Modules and files that were modified or newly added in the interbotix_ros_toolbox package includes:
 ```
 ├── interbotix_ros_manipulators

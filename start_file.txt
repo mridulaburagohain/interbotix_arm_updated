@@ -1,0 +1,22 @@
+This script lists all the commands to start the respective launch files
+Original documentation: https://docs.trossenrobotics.com/interbotix_xsarms_docs/
+
+## Source every time or add in bash.rc
+>> source ~/interbotix_ws_updated/install/setup.bash
+
+## To visualize therobot with rviz2
+>> ros2 launch interbotix_xsarm_descriptions xsarm_description.launch.py robot_model:=vx300s use_joint_pub_gui:=true
+
+## To control the arm using cmd
+>> ros2 launch interbotix_xsarm_control xsarm_control.launch.py robot_model:=vx300s
+>> ros2 service call /vx300s/torque_enable interbotix_xs_msgs/srv/TorqueEnable "{cmd_type: 'group', name: 'all', enable: false}"
+>> ros2 service call /vx300s/torque_enable interbotix_xs_msgs/srv/TorqueEnable "{cmd_type: 'group', name: 'all', enable: true}"
+
+## Use Moveit2 for arm manipulation with rviz2
+>> ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py robot_model:=vx300s hardware_type:=actual
+>> ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py robot_model:=vx300s hardware_type:=gz_classic
+>> ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py robot_model:=vx300s hardware_type:=fake
+
+## Use GUI for arm manipulation
+>> ros2 launch interbotix_xsarm_moveit_interface xsarm_moveit_interface.launch.py robot_model:=vx300s
+- hardware_type: actual/gz_classic/fake, by default: actual

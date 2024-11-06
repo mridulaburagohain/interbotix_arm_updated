@@ -34,7 +34,8 @@ The addition and modification of new features to the moveit controlled  GUI is d
      - The collision object created can serve as a base for future addition into the environment
 - **interbotix_moveit_interface_msgs** - This module helps to set up the command options available to send from the GUI for communication and msg structure used to call and returned by the moveit_plan server used in the *interbotix_moveit_interface module*
      - The new code expanded the command types to include the save_trajectory, retrace, repeat and gripper commands along with adding saved trajectory in the response msg structure of the class.
-
+ 
+Please find more details in the ```README``` file of the repective module
   
 ## Reference from the original repo for its structure  
 Below is an overview and package structure as defined in the original repository for reference

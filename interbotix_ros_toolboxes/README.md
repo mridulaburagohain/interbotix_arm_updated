@@ -33,7 +33,7 @@ The addition and modification of new features to the moveit controlled  GUI is d
 
   
 ## Reference from the original repo for its structure  
-### Below is an overview and package structure as defined in the original repository for reference
+Below is an overview and package structure as defined in the original repository for reference
 ## Overview
 ![toolbox_repo_structure](images/toolbox_repo_structure.png)
 

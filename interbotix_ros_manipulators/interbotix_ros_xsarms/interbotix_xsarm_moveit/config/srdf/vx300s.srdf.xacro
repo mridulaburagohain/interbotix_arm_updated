@@ -65,6 +65,10 @@
         <joint name="left_finger" value="0.057" />
         <joint name="right_finger" value="-0.057" />
     </group_state>
+    <group_state name="Grasp_petridish" group="interbotix_gripper">
+        <joint name="left_finger" value="0.047" />
+        <joint name="right_finger" value="-0.047" />
+    </group_state>
     <group_state name="Home" group="interbotix_gripper">
         <joint name="left_finger" value="0.03" />
         <joint name="right_finger" value="-0.03" />

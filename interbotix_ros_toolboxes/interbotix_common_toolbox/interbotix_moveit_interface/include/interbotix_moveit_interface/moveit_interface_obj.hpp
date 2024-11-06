@@ -56,52 +56,53 @@ using MoveItPlan = interbotix_moveit_interface_msgs::srv::MoveItPlan;
 using Empty = std_srvs::srv::Empty;
 
 // Constant defining the name of the planning group
-inline static const std::string PLANNING_GROUP = "interbotix_arm";
+//inline static const std::string PLANNING_GROUP = "interbotix_gripper";
 inline static const std::string EE_LINK = "ee_gripper_link";
 inline static const std::string VT_FRAME_NAME = "ee_pose";
-
 
 class InterbotixMoveItInterface
 {
 public:
   /// @brief Constructor for the InterbotixMoveItInterface
   /// @param node SharedPtr to ROS2 node
-  explicit InterbotixMoveItInterface(rclcpp::Node::SharedPtr & node);
+  explicit InterbotixMoveItInterface(rclcpp::Node::SharedPtr & node, const std::string & planning_group);
 
   /// @brief Destructor for the InterbotixMoveItInterface
   ~InterbotixMoveItInterface();
 
   void init();
-
+  bool changePlanningGroup(const std::string & new_planning_group);
   /// @brief Use MoveIt's planner to plan a trajectory to achieve the specified joint positions
   ///   [rad]
   /// @param joint_group_positions vector of joint positions [rad] to write to the joints;
   ///   sequence of positions match the joint name order expected by the 'interbotix_arm' group
   bool moveit_plan_joint_positions(const std::vector<double> joint_group_positions);
-
+  void initializeMoveGroup(const std::string & planning_group);
   /// @brief Use MoveIt's planner to plan a trajectory to achieve the specified end-effector pose
   /// @param pose desired pose of the end-effector (frame is placed at the 'ee_arm_link') w.r.t.
   ///   the 'world' frame
-  bool moveit_plan_ee_pose(const geometry_msgs::msg::Pose pose);
-
+  bool moveit_plan_ee_pose(const geometry_msgs::msg::Pose pose, moveit_msgs::msg::RobotTrajectory &trajectory);
+  
   /// @brief Use MoveIt's planner to plan a trajectory to achieve the specified end-effector
   ///   position
   /// @param x translation along the 'X-axis' w.r.t. the 'world' frame
   /// @param y translation along the 'Y-axis' w.r.t. the 'world' frame
   /// @param z translation along the 'Z-axis' w.r.t. the 'world' frame
-  bool moveit_plan_ee_position(double x, double y, double z);
+  bool moveit_plan_ee_position(double x, double y, double z, moveit_msgs::msg::RobotTrajectory &trajectory);
 
   /// @brief Use MoveIt's planner to plan a trajectory to achieve the specified end-effector
   ///   orientation
   /// @param quat desired end-effector orientation expressed as a quaternion
-  bool moveit_plan_ee_orientation(const geometry_msgs::msg::Quaternion quat);
+  bool moveit_plan_ee_orientation(const geometry_msgs::msg::Quaternion quat, moveit_msgs::msg::RobotTrajectory &trajectory);
 
   /// @brief Use MoveIt's planner to plan a trajectory to move the end-effector to the specified
   ///   waypoints
   /// @param waypoints sequence of goal poses for the end-effector to achieve; goal poses are
   ///   relative to the 'world' frame
   bool moveit_plan_cartesian_path(const std::vector<geometry_msgs::msg::Pose> waypoints);
-
+  void addFloorCollisionObject();
+  void addCameraHolderCollisionObject();
+  void addCameraHolderCollisionObjectSecond();
   /// @brief Execute a Moveit plan on the robot arm
   bool moveit_execute_plan(void);
 
@@ -111,6 +112,13 @@ public:
   ///   constrained against
   /// @param quat desired orientation of the 'constrained_link' relative to the 'reference_link'
   /// @param tolerance allowable deviation [rad] from the constraint about the x, y, and z axes
+  
+  bool moveit_execute_reverse_plan(void);
+  bool moveit_execute_repeat_plan(void) ;
+  bool moveit_grasp();
+  
+  bool moveit_release();
+  
   void moveit_set_path_constraint(
     const std::string constrained_link,
     const std::string reference_link,
@@ -131,7 +139,7 @@ public:
 private:
   // ROS Node
   rclcpp::Node::SharedPtr node_;
-
+  std::string planning_group_;
   // Service to plan or execute a goal pose for the end-effector
   rclcpp::Service<MoveItPlan>::SharedPtr srv_moveit_plan;
 
@@ -152,6 +160,12 @@ private:
 
   // Plan object that holds the calculated trajectory
   moveit::planning_interface::MoveGroupInterface::Plan saved_plan;
+  
+  // Joint state subscriber
+  rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_subscriber_;
+  std::vector<double> current_joint_values_; // Store the latest joint values
+
+  void jointStateCallback(const sensor_msgs::msg::JointState::SharedPtr msg);
 
   // Not applied in this demo but would be used to add objects to the world
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;

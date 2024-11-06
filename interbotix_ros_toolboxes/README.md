@@ -29,7 +29,8 @@ Modules and files that were modified or newly added in the interbotix_ros_toolbo
 ```
 The addition and modification of new features to the moveit controlled  GUI is done by modifying the interbotix_moveit_interface and interbotix_moveit_interface_msgs modules using the above mentioned files. 
 - **interbotix_moveit_interface** - This module is responsible to initialize to the moveGroupInterface, create services like moveit_plan and clear_markers and uses the GUI interpretations control the arm.
-     - Previously the GUI was only able to control the arm without the gripper fingers control and returns only a boolen value on any command execution. While the updated GUI, how has added a joint_states subscriber to check and update joint states before trajectory execution if an error threshold is surpassed, added collision objects using moveitPlanningScene to include environmental objects in its ROI, added the saved/obtained path as a msg response to the GUI call to be recorded for later use. 
+     - Previously the GUI was only able to control the arm without the gripper fingers control and returns only a boolen value on any command execution.
+     - While the updated GUI, how has added a joint_states subscriber to check and update joint states before trajectory execution if an error threshold is surpassed, added collision objects using moveitPlanningScene to include environmental objects in its ROI, added the saved/obtained path as a msg response to the GUI call to be recorded for later use. 
 - **interbotix_moveit_interface_msgs** - This module helps to set up the command options available to send from the GUI for communication and msg structure used to call and returned by the moveit_plan server used in the **interbotix_moveit_interface module**
 
   

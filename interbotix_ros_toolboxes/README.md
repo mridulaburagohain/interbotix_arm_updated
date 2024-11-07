@@ -32,7 +32,7 @@ The addition and modification of new features to the moveit controlled  GUI is d
      - Previously the InterbotixMoveitInterface class was only able to control the arm without the gripper control and returns only a boolen value on any command execution call from the GUI.
      - While the updated code, has added a joint_states subscriber to check and update joint states before trajectory execution if an error threshold is surpassed, added collision objects using moveitPlanningScene to include environmental objects in its operation region, added the saved/obtained path as a msg response to the GUI call to be recorded for later use, added planning group change abilities during the control operation to enable gripper control with arm, added functions to retrace and repeat trajectories and gripper actions on GUI call.
      - The collision object created can serve as a base for future addition into the environment
-- **interbotix_moveit_interface_msgs** - This module helps to set up the command options available to send from the GUI for communication and msg structure used to call and returned by the moveit_plan server used in the *interbotix_moveit_interface module*
+- **interbotix_moveit_interface_msgs** - This module helps to set up the command options available to send from the GUI for communication and msg structure used to call and returned by the moveit_plan server used in the *interbotix_moveit_interface* module
      - The new code expanded the command types to include the save_trajectory, retrace, repeat and gripper commands along with adding saved trajectory in the response msg structure of the class.
  
 Please find more details in the ```README``` file of the repective module

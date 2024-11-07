@@ -1,7 +1,8 @@
 # interbotix_moveit_interface
-As discused in the main ```README``` file of the *interbotix_ros_toolboxes* package this module is reponsible for the GUI modification
 
-The files modified for our application has the following additions:
+As discussed in the main ```README``` file of the *interbotix_ros_toolboxes* package, this module is reponsible for the GUI modification
+
+The files modified for our application have the following additions:
 - *moveit_interface_obj.hpp* - added new functions and updated the response types of existing functions within the moveit_interface class. 
 - *moveit_interface_obj.cpp* - this file initializes the moveit_interface node and leverages the move_group functionalities. New functions were implemented to handle saving, retracting, and repeating trajectories, as well as switching planning groups upon request. Additional functions enable grasping and releasing objects. The response structure was modified to include trajectory data. A new function was implemented to reverse saved trajectories for the retract operation. Functions were also added to handle collision object addition through the moveit_planning interface for each environmental object.
 - *moveit_interface.cpp* - the node initialization was modified to take planning_group as a parameter

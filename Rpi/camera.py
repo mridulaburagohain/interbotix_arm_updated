@@ -1,16 +1,17 @@
 #!/usr/bin/python3
 
 from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtGui import QPainter, QPalette
+from PyQt5.QtGui import QPainter, QPalette, QPixmap, QImage
 from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox,
                              QDoubleSpinBox, QFormLayout, QHBoxLayout, QLabel,
                              QLineEdit, QPushButton, QSlider, QSpinBox,
-                             QTabWidget, QVBoxLayout, QWidget)
+                             QTabWidget, QVBoxLayout, QWidget,QFileDialog)
 
 from picamera2 import Picamera2
 from picamera2.encoders import H264Encoder, Quality
 from picamera2.outputs import FfmpegOutput, FileOutput
 from picamera2.previews.qt import QGlPicamera2
+import os
 
 try:
     import cv2
@@ -132,22 +133,66 @@ def on_rec_button_clicked():
         on_pic_button_clicked()
 
 
+countervid=1
+
+currname_vid="start"
+curr_name_style_vid="start"
+curr_folder_vid="start"
+name_change_vid=False
+naming_style_change_vid=False
+folder_name_change_vid=False
 def on_vid_button_clicked():
     global recording
+    global currname_vid, curr_name_style_vid, curr_folder_vid,folder_name_change_vid,naming_style_change_vid,name_change_vid
+    global countervid
+    
+    if currname_vid !=vid_tab.filename.text():
+            name_change_vid=True
+            currname_vid=vid_tab.filename.text()
+    else:
+            name_change_vid=False
+            
+    if curr_name_style_vid != vid_tab.naming_style.currentText():
+            naming_style_change_vid=True
+            curr_name_style_vid =vid_tab.naming_style.currentText()
+    else:
+            naming_style_change_vid=False
+            
+    if curr_folder_vid != vid_tab.foldername.text():
+            folder_name_change_vid=True
+            curr_folder_vid = vid_tab.foldername.text()
+    else:
+            folder_name_change_vid=False
+
+    if naming_style_change_vid | name_change_vid | folder_name_change_vid:
+        countervid=1
+        
     if not recording:
         # Start video capture
         mode_tabs.setEnabled(False)
         encoder = H264Encoder()
         if vid_tab.filetype.currentText() in ["mp4", "mkv", "mov", "ts", "avi"]:
-            output = FfmpegOutput(
-                f"{vid_tab.filename.text() if vid_tab.filename.text() else 'test'}.{vid_tab.filetype.currentText()}"
-            )
+            if pic_tab.naming_style.currentText()=="prefix":
+                output = FfmpegOutput(
+                    f"{vid_tab.foldername.text()}/{countervid}{vid_tab.filename.text() if vid_tab.filename.text() else 'test'}.{vid_tab.filetype.currentText()}"
+                )            
+            else:
+                output = FfmpegOutput(
+                    f"{vid_tab.foldername.text()}/{vid_tab.filename.text() if vid_tab.filename.text() else 'test'}{countervid}.{vid_tab.filetype.currentText()}"
+                )
         else:
-            output = FileOutput(
-                f"{vid_tab.filename.text() if vid_tab.filename.text() else 'test'}.{vid_tab.filetype.currentText()}"
+            if pic_tab.naming_style.currentText()=="prefix":
+                output = FileOutput(
+                    f"{vid_tab.foldername.text()}/{countervid}{vid_tab.filename.text() if vid_tab.filename.text() else 'test'}.{vid_tab.filetype.currentText()}"
+               )            
+            else:
+                output = FileOutput(
+                    f"{vid_tab.foldername.text()}/{vid_tab.filename.text() if vid_tab.filename.text() else 'test'}{countervid}.{vid_tab.filetype.currentText()}"
             )
+            
         picam2.start_encoder(encoder, output, vid_tab.quality)
         rec_button.setText("Stop recording")
+        countervid+=1
         recording = True
     else:
         # Stop video capture
@@ -187,24 +232,94 @@ def on_mode_change(i):
         pic_tab.apply_settings()
 
 
+counter=1
+
+currname="start"
+curr_name_style="start"
+curr_folder="start"
+name_change=False
+naming_style_change=False
+folder_name_change=False
+image_paths1=[]
+curr_img_index=0
+
+
 def capture_done(job):
-    # Here's the request we captured. But we must always release it when we're done with it!
+    global currname, curr_name_style, curr_folder,folder_name_change,naming_style_change,name_change
+    global counter, naming_style_change, name_change, folder_name_change, image_paths, curr_img_index
+    
+    if currname != pic_tab.filename.text():
+            name_change=True
+            currname=pic_tab.filename.text()
+    else:
+            name_change=False
+            
+    if curr_name_style != pic_tab.naming_style.currentText():
+            naming_style_change=True
+            curr_name_style = pic_tab.naming_style.currentText()
+    else:
+            naming_style_change=False
+            
+    if curr_folder != pic_tab.foldername.text():
+            folder_name_change=True
+            curr_folder = pic_tab.foldername.text()
+    else:
+            folder_name_change=False
+
+    if naming_style_change | name_change | folder_name_change:
+        counter=1
+    # Here's the request we captured. But we must always release it when we're done with it!naming_style
     if not pic_tab.hdr.isChecked():
         # Save the normal image
         request = picam2.wait(job)
         if pic_tab.filetype.currentText() == "raw":
-            request.save_dng(
-                f"{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}.dng"
-            )
+            if pic_tab.naming_style.currentText()=="prefix":
+                request.save_dng(
+                f"{pic_tab.foldername.text()}/{counter}{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}.dng"
+                )
+                path=f"{pic_tab.foldername.text()}/{counter}{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}.dng"
+                                
+                preview_tab.prefix_suffix_count_label.setText(f"Prefix Count: {counter}")
+                
+            else:
+                 request.save_dng(
+                f"{pic_tab.foldername.text()}/{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}{counter}.dng"
+                )
+                 path=f"{pic_tab.foldername.text()}/{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}{counter}.dng"
+                 
+                 preview_tab.prefix_suffix_count_label.setText(f"Suffix Count: {counter}")
+                
         else:
-            request.save(
-                "main", f"{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}.{pic_tab.filetype.currentText()}"
-            )
+            if pic_tab.naming_style.currentText()=="prefix":
+                request.save(
+                "main", f"{pic_tab.foldername.text()}/{counter}{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}.{pic_tab.filetype.currentText()}"
+                  )
+                path=f"{pic_tab.foldername.text()}/{counter}{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}.{pic_tab.filetype.currentText()}"
+                  
+                preview_tab.prefix_suffix_count_label.setText(f"Prefix Count: {counter}")
+                
+            else:
+                request.save(
+                "main", f"{pic_tab.foldername.text()}/{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}{counter}.{pic_tab.filetype.currentText()}"
+                  )
+                path=f"{pic_tab.foldername.text()}/{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}{counter}.{pic_tab.filetype.currentText()}"
+                  
+                preview_tab.prefix_suffix_count_label.setText(f"Suffix Count: {counter}")
+                
         request.release()
+        counter+=1
         rec_button.setEnabled(True)
         mode_tabs.setEnabled(True)
+        
+        preview_tab.file_path.setText(path)
+        image_paths1.append(path)
+        text_path=preview_tab.file_path.text()
+        preview_tab.image_paths.append(text_path)
+        curr_img_index+=1
+        preview_tab.load_image(preview_tab.file_path)
         if pic_tab.preview_check.isChecked():
             switch_config("preview")
+            
     else:
         # HDR Capture
         global hdr_imgs
@@ -240,10 +355,16 @@ def capture_done(job):
             # Disable aec so it doesn't adjust gains
             aec_tab.aec_check.setChecked(False)
             # Save first image
-            cv2.imwrite(
-                f"{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}_base.{pic_tab.filetype.currentText()}",
+            
+            if pic_tab.naming_style.currentText()=="prefix":
+                cv2.imwrite(
+                f"{pic_tab.foldername.text()}/{counter}{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}.{pic_tab.filetype.currentText()}",
                 new_cv_img
-            )
+                  )
+            else:
+                cv2.imwrite(
+                f"{pic_tab.foldername.text()}/{pic_tab.filename.text() if pic_tab.filename.text() else 'test'}{counter}.{pic_tab.filetype.currentText()}",
+                 new_cv_img )
         else:
             # Find which exposure time has been captured
             nearest_exposure = min(hdr_imgs["exposures"]["all"], key=lambda x: abs(x - new_exposure))
@@ -862,9 +983,16 @@ class vidTab(QWidget):
         super().__init__()
         self.layout = QFormLayout()
         self.setLayout(self.layout)
+        self.foldername = QLineEdit()
+        self.foldername.setPlaceholderText('No folder selected')
+        self.select_folder_button = QPushButton('Select Folder')
+        self.select_folder_button.clicked.connect(self.open_folder_dialog)
+          
         self.filename = QLineEdit()
         self.filetype = QComboBox()
         self.filetype.addItems(["mp4", "mkv", "ts", "mov", "avi", "h264"])
+        self.naming_style = QComboBox()
+        self.naming_style.addItems(["prefix","suffix"]) 
         self.quality_box = QComboBox()
         self.quality_box.addItems(["Very Low", "Low", "Medium", "High", "Very High"])
         self.framerate = QSpinBox()
@@ -892,7 +1020,12 @@ class vidTab(QWidget):
         resolution.setLayout(res_layout)
 
         # Add the rows
+        self.layout.addRow("Folder Path", self.foldername)
+        self.layout.addRow(self.select_folder_button)
+        self.layout.addRow(self.apply_button)
+        
         self.layout.addRow("Name", self.filename)
+        self.layout.addRow("Prefix/Suffix", self.naming_style) 
         self.layout.addRow("File Type", self.filetype)
         self.layout.addRow("Quality", self.quality_box)
         self.layout.addRow("Frame Rate", self.framerate)
@@ -903,6 +1036,11 @@ class vidTab(QWidget):
         self.layout.addRow(self.apply_button)
 
         self.reset()
+        
+    def open_folder_dialog(self):
+        folder_path = QFileDialog.getExistingDirectory(self, 'Select Folder')
+        if folder_path:
+            self.foldername.setText(folder_path)
 
     @property
     def quality(self):
@@ -960,16 +1098,133 @@ class vidTab(QWidget):
         )
         switch_config("video")
 
+class PreviewTab(QWidget):
+    
+    def __init__(self):
+        super().__init__()
+        self.image_label = QLabel()
+        self.image_label.setAlignment(Qt.AlignCenter)
+        self.delete_button = QPushButton("Delete")
+        self.delete_button.clicked.connect(self.delete_image)
+        self.prefix_suffix_count_label = QLabel("Prefix/Suffix Count: 0")
+        self.prefix_suffix_count_label.setAlignment(Qt.AlignBottom)
+        self.image_paths=[]
+        
+        
+        
+        self.file_path = QLineEdit()
+        layout = QVBoxLayout()
+        layout.addWidget(self.image_label)
+        layout.addWidget(self.prefix_suffix_count_label)
+        layout.addWidget(self.delete_button)
+        self.setLayout(layout)
+        
+        #self.image_label.setFixedSize(800,800)
+        self.image = None
+        
+        
+            
+        #if self.file_path:
+         #   self.load_image(self.file_path)
+        #else:
+         #   print("Failed to load image_file_path  not exists:", self.file_path)
+        
+
+    def delete_image(self):
+        global counter, curr_img_index
+        filepath=self.file_path.text()
+        print(self.file_path.text())
+        if not filepath:
+            pass
+        
+        if os.path.exists(filepath):
+            try:
+                os.remove(filepath)
+                if counter >1:
+                    counter-=1
+                else:
+                    counter=1
+                if pic_tab.naming_style.currentText()=="prefix":
+                    self.prefix_suffix_count_label.setText(f"prefix Count: {counter-1}")
+                else:
+                    self.prefix_suffix_count_label.setText(f"Suffix Count: {counter-1}")
+                if filepath in self.image_paths:
+                    try:
+                      self.image_paths.remove(filepath)
+                      
+                      print("its done", len(self.image_paths))                                       
+                    except:
+                        print("cannot remove")
+                else:
+                    print("filepath not there in array")
+                if curr_img_index >= len(self.image_paths):
+                    curr_img_index=len(self.image_paths)-1
+                    print(curr_img_index)
+                    print("the index is updated")
+                if curr_img_index >= 0:
+                    try:
+                        path_file=self.image_paths[curr_img_index]
+                        self.file_path.setText(path_file)
+                        print("ho raha yaha tak3")                                            
+                        self.load_image(self.file_path)
+                        print("the file path is set")
+                    except:
+                        print("net file not set")
+                else:
+                    self.image_label.clear()
+                    self.file_path.clear()
+                    print("No image in preview")
+            except:
+                print("error in file")
+            
+            
+    def show_message(self, message, icon):
+        
+        msg_box = QMessageBox(self)
+        msg_box.setText(message)
+        msg_box.setIcon(icon)
+        msg_box.setWindowTitle("Image Deletion")
+        msg_box.exec_()
+        
+    def load_image(self, filepath):
+        if not filepath:
+            print("I am here")
+            filepath1=self.file_path.text()
+        else:
+            print("no no me")
+            filepath1=filepath.text()
+        image = QImage(filepath1)
+        if not image.isNull():
+            pixmap = QPixmap.fromImage(image)
+            # Scale the pixmap to fit the widget size while maintaining aspect ratio
+            scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.image_label.setPixmap(scaled_pixmap)
+            
+        else:
+            print("Failed to load image:", filepath1)
+        
+    
 
 class picTab(QWidget):
+    
     def __init__(self):
+       
         super().__init__()
         self.layout = QFormLayout()
         self.setLayout(self.layout)
+       
+        self.foldername = QLineEdit()
+        self.foldername.setPlaceholderText('No folder selected')
+        self.select_folder_button = QPushButton('Select Folder')
+        self.select_folder_button.clicked.connect(self.open_folder_dialog)
+        
 
         self.filename = QLineEdit()
+        
         self.filetype = QComboBox()
         self.filetype.addItems(["jpg", "png", "bmp", "gif", "raw"])
+        self.naming_style = QComboBox()
+        self.naming_style.addItems(["prefix","suffix"])    
         self.resolution_w = QSpinBox()
         self.resolution_w.setMaximum(picam2.sensor_resolution[0])
         self.resolution_w.valueChanged.connect(lambda: self.apply_button.setEnabled(True))
@@ -1017,9 +1272,13 @@ class picTab(QWidget):
         self.pic_update()
         self.update_options()
         self.reset()
-
+        
         # Add the rows
+        self.layout.addRow("Folder Path", self.foldername)
+        self.layout.addRow(self.select_folder_button)
+        self.layout.addRow(self.apply_button)
         self.layout.addRow("Name", self.filename)
+        self.layout.addRow("Prefix/Suffix", self.naming_style)    
         self.layout.addRow("File Type", self.filetype)
         self.layout.addRow("Resolution", resolution)
         self.layout.addRow("Sensor Mode", self.raw_format)
@@ -1036,6 +1295,11 @@ class picTab(QWidget):
             self.layout.addRow(QLabel("HDR unavailable - install opencv to try it out"))
 
         self.layout.addRow(self.apply_button)
+        
+    def open_folder_dialog(self):
+        folder_path = QFileDialog.getExistingDirectory(self, 'Select Folder')
+        if folder_path:
+            self.foldername.setText(folder_path)
 
     @property
     def sensor_mode(self):
@@ -1180,7 +1444,6 @@ ignore_controls = {
     "AfWindows",
     "AfPause",
     "AfMetering",
-    "ScalerCrops",
 }
 
 # Main widgets
@@ -1196,6 +1459,7 @@ tabs = QTabWidget()
 img_tab = IMGTab()
 pan_tab = panTab()
 aec_tab = AECTab()
+preview_tab = PreviewTab()
 info_tab = QLabel(alignment=Qt.AlignTop)
 other_tab = otherTab()
 hide_button = QPushButton(">")
@@ -1206,6 +1470,7 @@ hide_button.setMaximumSize(50, 400)
 mode_tabs = QTabWidget()
 pic_tab = picTab()
 vid_tab = vidTab()
+preview_tab=PreviewTab()
 mode_tabs.currentChanged.connect(on_mode_change)
 
 # Final setup
@@ -1219,16 +1484,17 @@ tabs.setFixedWidth(400)
 mode_tabs.setFixedWidth(400)
 layout_h = QHBoxLayout()
 layout_v = QVBoxLayout()
-
+tabs.addTab(preview_tab, "Preview")
 tabs.addTab(img_tab, "Image Tuning")
 tabs.addTab(pan_tab, "Pan/Zoom")
 tabs.addTab(aec_tab, "AEC/AWB")
 tabs.addTab(info_tab, "Info")
 tabs.addTab(other_tab, "Other")
 
+
 mode_tabs.addTab(pic_tab, "Still Capture")
 mode_tabs.addTab(vid_tab, "Video")
-
+#tabs.setVisible(False)
 layout_v.addWidget(mode_tabs)
 layout_v.addWidget(rec_button)
 

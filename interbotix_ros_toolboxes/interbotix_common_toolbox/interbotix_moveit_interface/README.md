@@ -2,9 +2,8 @@
 As discused in the main ```README``` file of the *interbotix_ros_toolboxes* package this module is reponsible for the GUI modification
 
 The files modified for our application has the following additions:
-- *moveit_interface_obj.hpp* - 
-
-- *moveit_interface_obj.cpp* -
+- *moveit_interface_obj.hpp* - modification to add new functions and change response type of already exsisting functions to the moveit_interface class was made. 
+- *moveit_interface_obj.cpp* - file that initializes the moveit_interface node and responsible to subscribe and use the move_group abilities. Added new functions to save, retrack, repeat
 - *moveit_interface.cpp* -
 - *moveit_interface_gui* -
 - *pick_and_place_moveit.py* -

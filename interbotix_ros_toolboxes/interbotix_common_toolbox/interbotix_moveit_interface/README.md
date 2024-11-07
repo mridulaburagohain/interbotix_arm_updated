@@ -3,12 +3,12 @@ As discused in the main ```README``` file of the *interbotix_ros_toolboxes* pack
 
 The files modified for our application has the following additions:
 - *moveit_interface_obj.hpp* - modification to add new functions and change response type of already exsisting functions to the moveit_interface class was made. 
-- *moveit_interface_obj.cpp* - file that initializes the moveit_interface node and responsible to subscribe and use the move_group abilities. Added new functions to save, retrack, repeat
+- *moveit_interface_obj.cpp* - this file initializes the moveit_interface node and leverages the move_group functionalities. New functions were implemented to handle saving, retracting, and repeating trajectories, as well as switching planning groups upon request. Additional functions enable grasping and releasing objects. The response structure was modified to include trajectory data. A new function was implemented to reverse saved trajectories for the retract operation. Functions were also added to handle collision object addition through the moveit_planning interface for each environmental object.
 - *moveit_interface.cpp* - the node initialization was modified to take planning_group as a parameter
-- *moveit_interface_gui* - the new butttons were added with full synchronization with the planning_group and also with each other. New functions were added to add callback for saving trajectory and retrack and repeat executables
-- *pick_and_place_moveit.py* - new file added to safe pick and place a object after knowing it location
-- *gripper_control.py* -new file for gripper control using interbotix_control
-- *saved_paths.txt* - demo trajectory saved
+- *moveit_interface_gui* - introduced new buttons with full synchronization across planning groups and with other functionalities. Callback functions were added to handle trajectory saving and the execution of retract and repeat operations.
+- *pick_and_place_moveit.py* - new script for performing safe pick-and-place operations based on object location.
+- *gripper_control.py* - added a script to control the gripper using interbotix_control.
+- *saved_paths.txt* - contains saved demo trajectories
 
 ## Reference from the original repository for the package structure
 Below is an overview and package structure as defined in the original repository for reference

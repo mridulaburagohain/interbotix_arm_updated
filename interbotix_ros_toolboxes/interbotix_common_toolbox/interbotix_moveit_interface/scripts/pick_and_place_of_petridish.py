@@ -32,7 +32,7 @@ PLACE_POSITION.orientation.w = 1.0
 
 STABLE_POSITION = Pose()
 STABLE_POSITION.position.x = 0.23
-STABLE_POSITION.position.y = 0.0
+STABLE_POSITION.position.y = 0.01
 STABLE_POSITION.position.z = 0.33
 STABLE_POSITION.orientation.x = 0.0
 STABLE_POSITION.orientation.y = 0.0

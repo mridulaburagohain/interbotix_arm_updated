@@ -56,7 +56,7 @@
   <xacro:property name="gripper_limit_vel"          value="${pi}"/>
 
   <xacro:property name="finger_limit_effort"        value="5"/>
-  <xacro:property name="finger_limit_lower"         value="0.021"/>
+  <xacro:property name="finger_limit_lower"         value="0.017"/>
   <xacro:property name="finger_limit_upper"         value="0.057"/>
   <xacro:property name="finger_limit_vel"           value="1"/>
 

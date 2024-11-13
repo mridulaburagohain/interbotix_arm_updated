@@ -7,9 +7,10 @@ The files modified for our application have the following additions:
 - *moveit_interface_obj.cpp* - this file initializes the moveit_interface node and leverages the move_group functionalities. New functions were implemented to handle saving, retracting, and repeating trajectories, as well as switching planning groups upon request. Additional functions enable grasping and releasing objects. The response structure was modified to include trajectory data. A new function was implemented to reverse saved trajectories for the retract operation. Functions were also added to handle collision object addition through the moveit_planning interface for each environmental object.
 - *moveit_interface.cpp* - the node initialization was modified to take planning_group as a parameter
 - *moveit_interface_gui* - introduced new buttons with full synchronization across planning groups and with other functionalities. Callback functions were added to handle trajectory saving and the execution of retract and repeat operations.
-- *pick_and_place_moveit.py* - new script for performing safe pick-and-place operations based on object location.
+- *pick_and_place_of_petridish.py* - new script for performing safe pick-and-place operations based on object location.
 - *gripper_control.py* - added a script to control the gripper using interbotix_control.
 - *saved_paths.txt* - contains saved demo trajectories
+- *CMakeLists.txt* - add the dependencies for trajectory msg
 
 ## Reference from the original repository for the package structure
 Below is an overview and package structure as defined in the original repository for reference

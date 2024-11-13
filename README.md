@@ -34,7 +34,7 @@ New features introduced: New buttons were introduced to save the start, goal, an
 - interbotix_moveit_interface - Please check the ```README``` file of this package to have detailed information on the changes performed: [Move Group Interface](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface)
 - interbotix_moveit_interface_msgs - Please check the ```README``` file of this package to have detailed information on the changes performed: [Move Group Interface msgs](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface_msgs)
 - interbotix_xsarms_moveit - Please check the ```README``` file of this package to have detailed information on the changes performed: [Moveit xsarms control](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_manipulators/interbotix_ros_xsarms/interbotix_xsarm_moveit)
-- interbotix_xsarms_description - Please check the ```README``` file of this package to have detailed information on the changes performed: [Xsarms descriptions](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_manipulators/interbotix_ros_xsarms/interbotix_xsarm_descriptions)
+- interbotix_xsarms_description - The gripper finger's lower limit was reduced to pick the callus from the petridish: [Xsarms descriptions](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_manipulators/interbotix_ros_xsarms/interbotix_xsarm_descriptions)
 
 ## Installation instructions
 Below is the code for the installation command for this modified repository

@@ -30,10 +30,11 @@ It can also save its path and repeat it multiple times in the subsequent steps. 
 ![GUI_snapshot](images/GUI_snapshot.png) 
 New features introduced: New buttons were introduced to save the start, goal, and planned path for later use. The planning group change button was introduced to change the planning group to shift the controller from arm to gripper and vice versa. The Gripper planning group now takes predefined grasp and release positions from the srdf file but can be easily updated for custom positions. The button's synchronization is established to guide the user from one step to another and not to execute repetition. Joint states are updated after every action to cover the accuracy errors in execution. The collision threshold was also updated for safe manipulation.
 
-## Updated modules
+## Updated packages
 - interbotix_moveit_interface - Please check the ```README``` file of this package to have detailed information on the changes performed: [Move Group Interface](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface)
 - interbotix_moveit_interface_msgs - Please check the ```README``` file of this package to have detailed information on the changes performed: [Move Group Interface msgs](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface_msgs)
 - interbotix_xsarms_moveit - Please check the ```README``` file of this package to have detailed information on the changes performed: [Moveit xsarms control](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_manipulators/interbotix_ros_xsarms/interbotix_xsarm_moveit)
+- - interbotix_xsarms_description - Please check the ```README``` file of this package to have detailed information on the changes performed: [Moveit xsarms control](https://github.com/mridulaburagohain/interbotix_arm_updated/tree/main/interbotix_ros_manipulators/interbotix_ros_xsarms/interbotix_xsarm_description)
 
 ## Installation instructions
 Below is the code for the installation command for this modified repository

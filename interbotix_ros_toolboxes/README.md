@@ -15,7 +15,7 @@ Modules and files that were modified or newly added in the interbotix_ros_toolbo
 │               └── moveit_interface_obj.cpp
 │           ├── scripts
 │               ├── moveit_interface_gui
-│               ├── pick_and_place_moveit.py
+│               ├── pick_and_place_of_petridish.py
 │               └── gripper_control.py
 │           ├── paths
 │               └── saved_path.txt

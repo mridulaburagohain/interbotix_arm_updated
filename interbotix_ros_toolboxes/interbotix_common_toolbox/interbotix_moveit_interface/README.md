@@ -8,7 +8,7 @@ The files modified for our application have the following additions:
 - *moveit_interface.cpp* - the node initialization was modified to take planning_group as a parameter
 - *moveit_interface_gui* - introduced new buttons with full synchronization across planning groups and with other functionalities. Callback functions were added to handle trajectory saving and the execution of retract and repeat operations.
 - *pick_and_place_of_petridish.py* - new script for performing safe pick-and-place operations of petri-dish based on its location.
-- - *pick_place_callus.py* - new script for performing safe pick-and-place operation of callus based on its location in the petridish.
+- *pick_place_callus.py* - new script for performing safe pick-and-place operation of callus based on its location in the petridish.
 - *gripper_control.py* - added a script to control the gripper using interbotix_control.
 - *saved_paths.txt* - contains saved demo trajectories
 - *CMakeLists.txt* - add the dependencies for trajectory msg

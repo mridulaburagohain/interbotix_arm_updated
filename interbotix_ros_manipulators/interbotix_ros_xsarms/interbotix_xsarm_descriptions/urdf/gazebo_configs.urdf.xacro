@@ -8,6 +8,28 @@
       <dampingFactor>0.01</dampingFactor>
     </gazebo>
 
+  <gazebo reference="camera_link">
+      <material>Gazebo/DarkGray</material>
+      <sensor name="camera" type="camera">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>10</update_rate>
+        <camera>
+           <horizontal_fov>1.134</horizontal_fov>
+           <image>
+              <width>4056</width>
+              <height>3040</height>
+              <format>R8G8B8</format>
+           </image>
+           <clip>
+              <near>0.20</near>
+              <far>0.24</far>
+           </clip>
+        </camera>
+      </sensor>
+      <dampingFactor>0.01</dampingFactor>
+    </gazebo>  
+
     <gazebo reference="$(arg robot_name)/shoulder_link">
       <material>Gazebo/DarkGray</material>
       <dampingFactor>0.01</dampingFactor>
